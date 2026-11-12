@@ -1,2 +1,2 @@
-<template><footer class="site-footer"><div class="footer-inner"><b>CAVXX</b><small>视频索引与播放服务</small></div></footer></template>
-<style scoped>.site-footer{margin-top:34px;border-top:1px solid #ffffff0f;background:#0a0a0e}.footer-inner{width:min(1400px,calc(100% - 32px));margin:auto;padding:28px 0 32px;text-align:center;color:#d7d7dd}.footer-inner small{display:block;margin-top:6px;color:#5b5b65;font-size:11px}</style>
+<template><footer class="site-footer"><div class="footer-inner"><b>CAVXX</b><small>视频索引与播放服务</small><span>© {{ new Date().getFullYear() }} CAVXX</span></div></footer></template>
+<style scoped>.site-footer{margin-top:34px;border-top:1px solid #292929;background:#090909}.footer-inner{width:min(1400px,calc(100% - 32px));margin:auto;padding:28px 0 32px;text-align:center;color:#d7d7dd}.footer-inner b{color:#f5c400;font-size:18px;letter-spacing:.04em}.footer-inner small,.footer-inner span{display:block;margin-top:6px;color:#777;font-size:11px}</style>
