@@ -1,4 +1,4 @@
-const API_BASE=String(import.meta.env.VITE_APPLECMS_API_BASE||'').trim()
+const API_BASE=String(import.meta.env.VITE_APPLECMS_API_BASE||'https://api.heiapi.cc/api.php/provide/vod/').trim()
 const cache=new Map(),pending=new Map()
 const TTL=60_000,STALE=600_000,TIMEOUT=12_000
 function apiUrl(params={}) {
@@ -44,18 +44,18 @@ const EMPTY={data:{list:[],pagecount:0,total:0}}
 export const getClass=()=>request({ac:'list',pg:1,pagesize:100},300_000)
 let pagePool=[]
 function nextPage(){if(!pagePool.length){pagePool=Array.from({length:500},(_,i)=>i+1);for(let i=pagePool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pagePool[i],pagePool[j]]=[pagePool[j],pagePool[i]]}}return pagePool.pop()}
-export const getHome=(page=1,limit=20,random=false)=>request({ac:'detail',pg:random?nextPage():Math.max(1,Number(page)||1),limit})
+export const getHome=(page=1,limit=20,random=false)=>request({ac:'detail',pg:random?nextPage():Math.max(1,Number(page)||1),pagesize:limit})
 export const getLatestVideos=(p=1,l=12)=>getHome(p,l,false)
 export const getHotVideos=(p=1,l=12)=>getHome(1,l,true)
 export const getDayHotVideos=(p=1,l=12)=>getHome(1,l,true)
 export const getWeekHotVideos=(p=1,l=12)=>getHome(1,l,true)
 export const getTopVideos=(p=1,l=12)=>getHome(1,l,true)
-export const getCategory=(id,page=1,sort='latest')=>request({ac:'detail',t:id,pg:Math.max(1,Number(page)||1),limit:12,...(sort&&sort!=='latest'?{sort}:{})})
+export const getCategory=(id,page=1,sort='latest')=>request({ac:'detail',t:id,pg:Math.max(1,Number(page)||1),pagesize:12,...(sort&&sort!=='latest'?{sort}:{})})
 export const searchVideo=(wd,page=1)=>String(wd||'').trim()?request({ac:'detail',wd:String(wd).trim(),pg:Math.max(1,Number(page)||1),limit:12}):Promise.resolve(EMPTY)
 export const getDetail=id=>request({ac:'detail',ids:id})
 export const getCategoryLatest=(id,limit=12)=>getCategory(id,1).then(r=>{r.data.list=(r.data.list||[]).slice(0,limit);return r})
 async function pool(limit,items,fn){const out=[],active=new Set();for(const item of items){const p=Promise.resolve().then(()=>fn(item));out.push(p);active.add(p);p.finally(()=>active.delete(p));if(active.size>=limit)await Promise.race(active)}return Promise.all(out)}
-async function hasVideo(id){try{return(await request({ac:'detail',t:id,pg:1,limit:1})).data.list?.length>0}catch{return false}}
+async function hasVideo(id){try{return(await request({ac:'detail',t:id,pg:1,pagesize:1})).data.list?.length>0}catch{return false}}
 let classCache=null,classTime=0
 export async function getActiveClass(){if(classCache&&Date.now()-classTime<300_000)return classCache;const r=await getClass();const values=await pool(5,r.data.class||[],async item=>(await hasVideo(item.type_id))?item:null);classCache=values.filter(Boolean);classTime=Date.now();return classCache}
 export function clearApiCache(){cache.clear();pending.clear();pagePool=[];classCache=null;classTime=0}
