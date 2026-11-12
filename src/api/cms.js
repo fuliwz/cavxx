@@ -41,7 +41,21 @@ async function request(params={},ttl=TTL,retry=1) {
  pending.set(key,task);return task
 }
 const EMPTY={data:{list:[],pagecount:0,total:0}}
-export const getClass=()=>request({ac:'list',pg:1,pagesize:100},300_000)
+let localClassCache=null,localClassTime=0,localClassPending=null
+export async function getClass(){
+ if(localClassCache&&Date.now()-localClassTime<300_000)return {data:{class:localClassCache}}
+ if(localClassPending)return localClassPending
+ localClassPending=(async()=>{
+  const response=await fetch('/class.json',{method:'GET',cache:'no-cache',headers:{Accept:'application/json'}})
+  if(!response.ok)throw new Error('本地分类文件加载失败：HTTP '+response.status)
+  const json=await response.json()
+  const list=Array.isArray(json)?json:Array.isArray(json?.class)?json.class:Array.isArray(json?.data?.class)?json.data.class:[]
+  localClassCache=list.filter(item=>item&&item.type_id!=null&&item.type_name!=null)
+  localClassTime=Date.now()
+  return {data:{class:localClassCache}}
+ })()
+ try{return await localClassPending}finally{localClassPending=null}
+}
 let pagePool=[]
 function nextPage(){if(!pagePool.length){pagePool=Array.from({length:500},(_,i)=>i+1);for(let i=pagePool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pagePool[i],pagePool[j]]=[pagePool[j],pagePool[i]]}}return pagePool.pop()}
 export const getHome=(page=1,limit=20,random=false)=>request({ac:'detail',pg:random?nextPage():Math.max(1,Number(page)||1),pagesize:limit})
@@ -54,8 +68,5 @@ export const getCategory=(id,page=1,sort='latest')=>request({ac:'detail',t:id,pg
 export const searchVideo=(wd,page=1)=>String(wd||'').trim()?request({ac:'detail',wd:String(wd).trim(),pg:Math.max(1,Number(page)||1),pagesize:12}):Promise.resolve(EMPTY)
 export const getDetail=id=>request({ac:'detail',ids:id})
 export const getCategoryLatest=(id,limit=12)=>getCategory(id,1).then(r=>{r.data.list=(r.data.list||[]).slice(0,limit);return r})
-async function pool(limit,items,fn){const out=[],active=new Set();for(const item of items){const p=Promise.resolve().then(()=>fn(item));out.push(p);active.add(p);p.finally(()=>active.delete(p));if(active.size>=limit)await Promise.race(active)}return Promise.all(out)}
-async function hasVideo(id){try{return(await request({ac:'detail',t:id,pg:1,pagesize:1})).data.list?.length>0}catch{return false}}
-let classCache=null,classTime=0
-export async function getActiveClass(){if(classCache&&Date.now()-classTime<300_000)return classCache;const r=await getClass();const values=await pool(5,r.data.class||[],async item=>(await hasVideo(item.type_id))?item:null);classCache=values.filter(Boolean);classTime=Date.now();return classCache}
-export function clearApiCache(){cache.clear();pending.clear();pagePool=[];classCache=null;classTime=0}
+export async function getActiveClass(){const r=await getClass();return r.data.class||[]}
+export function clearApiCache(){cache.clear();pending.clear();pagePool=[];localClassCache=null;localClassTime=0;localClassPending=null}
