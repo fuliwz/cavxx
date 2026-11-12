@@ -1,38 +1,64 @@
 # CAVXX
 
-Vue 3 + Vite video browsing frontend. The UI follows the page layout and visual style of [fuliwz/yy1080](https://github.com/fuliwz/yy1080).
+Vue 3 + Vite 视频前端，使用 AppleCMS API PHP 中转。
 
-## PHP API proxy
+## 配置文件
 
-The browser calls the PHP proxy at `https://api.7e5zbdgbh4rebo1.sbs/api.php`. The PHP endpoint forwards the allowed AppleCMS parameters to the upstream Provide API at `https://api.heiapi.cc/api.php/provide/vod/`, so the browser no longer calls the upstream API directly.
+### 分类
 
-### PHP deployment
+编辑 `public/class.json`，分类从本地 JSON 加载。
 
-1. Upload the repository's `api.php` file to the document root of the PHP website for `api.7e5zbdgbh4rebo1.sbs`.
-2. Enable PHP cURL in the hosting panel.
-3. Install and enable a valid HTTPS certificate for `api.7e5zbdgbh4rebo1.sbs`. Cloudflare Pages is HTTPS; browsers block calls from an HTTPS page to an HTTP API (mixed content).
-4. Test `https://api.7e5zbdgbh4rebo1.sbs/api.php?ac=list&pg=1&pagesize=5`. It should return JSON.
-5. The PHP endpoint allows CORS from `https://cavxx.pages.dev` and caches successful upstream JSON responses for 30 seconds in the system temporary directory.
+### 广告
 
-### Frontend deployment
-
-Cloudflare Pages build command: `npm run build`; output directory: `dist`. The default API URL is already set in `src/api/cms.js`. If overriding it, set `VITE_APPLECMS_API_BASE` to the complete HTTPS PHP endpoint and trigger a new deployment.
-
-## Local video categories
-
-The frontend loads navigation categories from the static file `public/class.json` (published as `/class.json`) instead of requesting `ac=list` from the PHP/AppleCMS API. The file accepts either a plain array or an AppleCMS-style object containing `class` or `data.class`.
-
-Each category item must include `type_id` and `type_name`, for example:
+编辑 `public/ads.json`：
 
 ```json
-[
-  { "type_id": 1, "type_name": "电影" },
-  { "type_id": 2, "type_name": "电视剧" }
-]
+{
+  "enabled": true,
+  "slots": {
+    "top": [
+      {
+        "id": "top-banner",
+        "enabled": true,
+        "type": "image",
+        "image": "/ads/banner.webp",
+        "alt": "站点广告",
+        "href": "https://example.com/"
+      }
+    ],
+    "bottom": []
+  }
+}
 ```
 
-The repository currently contains an empty array in `public/class.json`; replace it with your actual category IDs and names. Category video lists, search, and video details continue to use the PHP proxy.
+支持 `image`、`text`、`html` 三种类型。HTML 类型通过 `v-html` 渲染，只能放置可信任代码。全局 `enabled` 为 `false` 时不显示广告。广告位：`top` 位于导航下方，`bottom` 位于页面内容下方。修改配置后重新部署；SPA 页面切换会更新广告展示。
 
-## API fields
+### 友情链接
 
-The proxy forwards `ac`, `pg`, `pagesize`, `t`, `wd`, `ids`, and `sort`. Supported `ac` values are `list` and `detail`.
+编辑 `public/links.json`，按照浏览器实际访问的域名分别配置：
+
+```json
+{
+  "site-a.example": [
+    { "name": "站点A导航", "url": "https://nav-a.example/" }
+  ],
+  "site-b.example": [
+    { "name": "站点B导航", "url": "https://nav-b.example/" }
+  ],
+  "*.example.net": [
+    { "name": "通用导航", "url": "https://nav.example.net/" }
+  ]
+}
+```
+
+精确域名优先于通配符；支持 www 规范化；未匹配域名不显示友情链接。通配符只匹配配置域名的子域名。链接只接受 HTTP/HTTPS 地址。
+
+## 开发与构建
+
+```bash
+npm install
+npm run dev
+npm run build
+```
+
+Cloudflare Pages 构建命令：`npm run build`；输出目录：`dist`。
