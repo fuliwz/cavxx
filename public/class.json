@@ -1,1 +1,327 @@
-[]
+[
+  {
+    "type_id": 48,
+    "type_pid": 0,
+    "type_name": "国产视频"
+  },
+  {
+    "type_id": 49,
+    "type_pid": 48,
+    "type_name": "国产自拍"
+  },
+  {
+    "type_id": 50,
+    "type_pid": 48,
+    "type_name": "国产偷拍"
+  },
+  {
+    "type_id": 51,
+    "type_pid": 48,
+    "type_name": "国产探花"
+  },
+  {
+    "type_id": 52,
+    "type_pid": 48,
+    "type_name": "国产主播"
+  },
+  {
+    "type_id": 53,
+    "type_pid": 48,
+    "type_name": "国产户外"
+  },
+  {
+    "type_id": 54,
+    "type_pid": 48,
+    "type_name": "黑料吃瓜"
+  },
+  {
+    "type_id": 55,
+    "type_pid": 0,
+    "type_name": "传媒厂商"
+  },
+  {
+    "type_id": 56,
+    "type_pid": 55,
+    "type_name": "麻豆传媒"
+  },
+  {
+    "type_id": 57,
+    "type_pid": 55,
+    "type_name": "精东影业"
+  },
+  {
+    "type_id": 58,
+    "type_pid": 55,
+    "type_name": "蜜桃传媒"
+  },
+  {
+    "type_id": 59,
+    "type_pid": 55,
+    "type_name": "果冻传媒"
+  },
+  {
+    "type_id": 60,
+    "type_pid": 55,
+    "type_name": "天美传媒"
+  },
+  {
+    "type_id": 61,
+    "type_pid": 55,
+    "type_name": "星空传媒"
+  },
+  {
+    "type_id": 62,
+    "type_pid": 55,
+    "type_name": "皇家华人"
+  },
+  {
+    "type_id": 63,
+    "type_pid": 55,
+    "type_name": "起点传媒"
+  },
+  {
+    "type_id": 64,
+    "type_pid": 55,
+    "type_name": "渡边传媒"
+  },
+  {
+    "type_id": 65,
+    "type_pid": 55,
+    "type_name": "葫芦影业"
+  },
+  {
+    "type_id": 66,
+    "type_pid": 55,
+    "type_name": "红斯灯影像"
+  },
+  {
+    "type_id": 67,
+    "type_pid": 55,
+    "type_name": "水果派解说"
+  },
+  {
+    "type_id": 68,
+    "type_pid": 55,
+    "type_name": "SA传媒"
+  },
+  {
+    "type_id": 69,
+    "type_pid": 55,
+    "type_name": "糖心Vlog"
+  },
+  {
+    "type_id": 70,
+    "type_pid": 55,
+    "type_name": "性视界"
+  },
+  {
+    "type_id": 71,
+    "type_pid": 55,
+    "type_name": "水果派解说"
+  },
+  {
+    "type_id": 72,
+    "type_pid": 0,
+    "type_name": "日本AV"
+  },
+  {
+    "type_id": 73,
+    "type_pid": 72,
+    "type_name": "日本无码"
+  },
+  {
+    "type_id": 74,
+    "type_pid": 72,
+    "type_name": "日本有码"
+  },
+  {
+    "type_id": 75,
+    "type_pid": 72,
+    "type_name": "中字无码"
+  },
+  {
+    "type_id": 76,
+    "type_pid": 72,
+    "type_name": "中字有码"
+  },
+  {
+    "type_id": 77,
+    "type_pid": 0,
+    "type_name": "特殊嗜好"
+  },
+  {
+    "type_id": 78,
+    "type_pid": 77,
+    "type_name": "绿帽换妻"
+  },
+  {
+    "type_id": 79,
+    "type_pid": 77,
+    "type_name": "SM调教"
+  },
+  {
+    "type_id": 80,
+    "type_pid": 77,
+    "type_name": "男同系列"
+  },
+  {
+    "type_id": 81,
+    "type_pid": 77,
+    "type_name": "女同系列"
+  },
+  {
+    "type_id": 82,
+    "type_pid": 77,
+    "type_name": "乱伦系列"
+  },
+  {
+    "type_id": 83,
+    "type_pid": 0,
+    "type_name": "网黄自制"
+  },
+  {
+    "type_id": 84,
+    "type_pid": 83,
+    "type_name": "台北娜娜"
+  },
+  {
+    "type_id": 85,
+    "type_pid": 83,
+    "type_name": "玩偶姐姐"
+  },
+  {
+    "type_id": 86,
+    "type_pid": 83,
+    "type_name": "饼干姐姐"
+  },
+  {
+    "type_id": 87,
+    "type_pid": 83,
+    "type_name": "黑椒盖饭"
+  },
+  {
+    "type_id": 88,
+    "type_pid": 83,
+    "type_name": "冉冉学姐"
+  },
+  {
+    "type_id": 89,
+    "type_pid": 83,
+    "type_name": "小水水"
+  },
+  {
+    "type_id": 90,
+    "type_pid": 83,
+    "type_name": "柚子猫"
+  },
+  {
+    "type_id": 91,
+    "type_pid": 83,
+    "type_name": "捅主任"
+  },
+  {
+    "type_id": 92,
+    "type_pid": 83,
+    "type_name": "鸡教练"
+  },
+  {
+    "type_id": 93,
+    "type_pid": 83,
+    "type_name": "刘玥"
+  },
+  {
+    "type_id": 94,
+    "type_pid": 0,
+    "type_name": "三级伦理"
+  },
+  {
+    "type_id": 95,
+    "type_pid": 94,
+    "type_name": "国产伦理"
+  },
+  {
+    "type_id": 96,
+    "type_pid": 94,
+    "type_name": "香港伦理"
+  },
+  {
+    "type_id": 97,
+    "type_pid": 94,
+    "type_name": "台湾伦理"
+  },
+  {
+    "type_id": 98,
+    "type_pid": 94,
+    "type_name": "韩国伦理"
+  },
+  {
+    "type_id": 99,
+    "type_pid": 94,
+    "type_name": "日本伦理"
+  },
+  {
+    "type_id": 100,
+    "type_pid": 94,
+    "type_name": "西方伦理"
+  },
+  {
+    "type_id": 101,
+    "type_pid": 0,
+    "type_name": "欧美AV"
+  },
+  {
+    "type_id": 102,
+    "type_pid": 0,
+    "type_name": "美女写真"
+  },
+  {
+    "type_id": 103,
+    "type_pid": 0,
+    "type_name": "成人动漫"
+  },
+  {
+    "type_id": 104,
+    "type_pid": 55,
+    "type_name": "扣扣传媒"
+  },
+  {
+    "type_id": 105,
+    "type_pid": 55,
+    "type_name": "爱豆传媒"
+  },
+  {
+    "type_id": 106,
+    "type_pid": 55,
+    "type_name": "乌托邦传媒"
+  },
+  {
+    "type_id": 107,
+    "type_pid": 55,
+    "type_name": "爱神传媒"
+  },
+  {
+    "type_id": 108,
+    "type_pid": 55,
+    "type_name": "香蕉传媒"
+  },
+  {
+    "type_id": 109,
+    "type_pid": 55,
+    "type_name": "大象传媒"
+  },
+  {
+    "type_id": 110,
+    "type_pid": 55,
+    "type_name": "其他传媒"
+  },
+  {
+    "type_id": 111,
+    "type_pid": 83,
+    "type_name": "米菲兔"
+  },
+  {
+    "type_id": 112,
+    "type_pid": 48,
+    "type_name": "短视频"
+  }
+]
