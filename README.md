@@ -18,6 +18,21 @@ The browser calls the PHP proxy at `https://api.7e5zbdgbh4rebo1.sbs/api.php`. Th
 
 Cloudflare Pages build command: `npm run build`; output directory: `dist`. The default API URL is already set in `src/api/cms.js`. If overriding it, set `VITE_APPLECMS_API_BASE` to the complete HTTPS PHP endpoint and trigger a new deployment.
 
+## Local video categories
+
+The frontend loads navigation categories from the static file `public/class.json` (published as `/class.json`) instead of requesting `ac=list` from the PHP/AppleCMS API. The file accepts either a plain array or an AppleCMS-style object containing `class` or `data.class`.
+
+Each category item must include `type_id` and `type_name`, for example:
+
+```json
+[
+  { "type_id": 1, "type_name": "电影" },
+  { "type_id": 2, "type_name": "电视剧" }
+]
+```
+
+The repository currently contains an empty array in `public/class.json`; replace it with your actual category IDs and names. Category video lists, search, and video details continue to use the PHP proxy.
+
 ## API fields
 
 The proxy forwards `ac`, `pg`, `pagesize`, `t`, `wd`, `ids`, and `sort`. Supported `ac` values are `list` and `detail`.
