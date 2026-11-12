@@ -1,0 +1,2 @@
+<template><div class="sk-card"><div class="sk-thumb"></div><div class="sk-line w80"></div><div class="sk-line w60"></div></div></template>
+<style scoped>.sk-thumb{aspect-ratio:16/9;border-radius:12px;background:linear-gradient(100deg,#14141a 20%,#24242d 38%,#14141a 56%);background-size:220% 100%;animation:shimmer 1.35s infinite linear}.sk-line{height:10px;margin-top:10px;border-radius:99px;background:#202027}.w80{width:80%}.w60{width:60%}@keyframes shimmer{from{background-position:200% 0}to{background-position:-20% 0}}</style>
