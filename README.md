@@ -2,18 +2,22 @@
 
 Vue 3 + Vite video browsing frontend. The UI follows the page layout and visual style of [fuliwz/yy1080](https://github.com/fuliwz/yy1080).
 
-## Direct browser API (no Pages Functions)
+## PHP API proxy
 
-All video requests use the native browser Fetch API and go directly to the AppleCMS legacy Provide API. The default endpoint is `https://api.heiapi.cc/api.php/provide/vod/`; it can be overridden at build time with `VITE_APPLECMS_API_BASE`.
+The browser calls the PHP proxy at `https://api.7e5zbdgbh4rebo1.sbs/api.php`. The PHP endpoint forwards the allowed AppleCMS parameters to the upstream Provide API at `https://api.heiapi.cc/api.php/provide/vod/`, so the browser no longer calls the upstream API directly.
 
-This repository intentionally has no `functions/` directory, Pages Functions, server-side proxy, or Vite API proxy.
+### PHP deployment
 
-1. Optional: copy `.env.example` to `.env.local` and set `VITE_APPLECMS_API_BASE` to your complete Provide endpoint.
-2. The API host must allow CORS requests from the deployed site origin. Browser code cannot bypass CORS.
-3. Run `npm install`, then `npm run dev` or `npm run build`.
+1. Upload the repository's `api.php` file to the document root of the PHP website for `api.7e5zbdgbh4rebo1.sbs`.
+2. Enable PHP cURL in the hosting panel.
+3. Install and enable a valid HTTPS certificate for `api.7e5zbdgbh4rebo1.sbs`. Cloudflare Pages is HTTPS; browsers block calls from an HTTPS page to an HTTP API (mixed content).
+4. Test `https://api.7e5zbdgbh4rebo1.sbs/api.php?ac=list&pg=1&pagesize=5`. It should return JSON.
+5. The PHP endpoint allows CORS from `https://cavxx.pages.dev` and caches successful upstream JSON responses for 30 seconds in the system temporary directory.
 
-Cloudflare Pages settings: build command `npm run build`, output directory `dist`. No API environment variable is required when using the default endpoint. If you override it, set `VITE_APPLECMS_API_BASE` as a build environment variable and trigger a new deployment because Vite embeds environment values during the build. Pages only serves static files.
+### Frontend deployment
+
+Cloudflare Pages build command: `npm run build`; output directory: `dist`. The default API URL is already set in `src/api/cms.js`. If overriding it, set `VITE_APPLECMS_API_BASE` to the complete HTTPS PHP endpoint and trigger a new deployment.
 
 ## API fields
 
-Uses `ac=list`, `ac=detail`, `pg`, `pagesize`, `t`, `wd`, and `ids`. Expected response fields include `list`, `class`, and `pagecount`.
+The proxy forwards `ac`, `pg`, `pagesize`, `t`, `wd`, `ids`, and `sort`. Supported `ac` values are `list` and `detail`.
