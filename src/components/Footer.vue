@@ -1,0 +1,2 @@
+<template><footer class="site-footer"><div class="footer-inner"><b>CAVXX</b><small>视频索引与播放服务</small></div></footer></template>
+<style scoped>.site-footer{margin-top:34px;border-top:1px solid #ffffff0f;background:#0a0a0e}.footer-inner{width:min(1400px,calc(100% - 32px));margin:auto;padding:28px 0 32px;text-align:center;color:#d7d7dd}.footer-inner small{display:block;margin-top:6px;color:#5b5b65;font-size:11px}</style>
