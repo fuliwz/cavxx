@@ -1,4 +1,4 @@
-const API_BASE=String(import.meta.env.VITE_APPLECMS_API_BASE||'https://api.heiapi.cc/api.php/provide/vod/').trim()
+const API_BASE=String(import.meta.env.VITE_APPLECMS_API_BASE||'https://api.7e5zbdgbh4rebo1.sbs/api.php').trim()
 const cache=new Map(),pending=new Map()
 const TTL=60_000,STALE=600_000,TIMEOUT=12_000
 function apiUrl(params={}) {
@@ -14,7 +14,7 @@ function normalize(json) {
   if(!item)return item
   const raw=item.vod_pic||item.vod_pic_thumb||item.vod_pic_slide||''
   let pic=raw
-  if(raw&&!/^https?:\/\//i.test(raw)){try{pic=new URL(raw,API_BASE).href}catch{}}
+  if(raw&&!/^https?:\/\//i.test(raw)){try{pic=new URL(raw,'https://api.heiapi.cc/api.php/provide/vod/').href}catch{}}
   return {...item,vod_pic:pic||'/fallback.svg'}
  })
  if(root.pagecount==null&&root.page_count!=null)root.pagecount=root.page_count
