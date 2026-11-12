@@ -51,7 +51,7 @@ export const getDayHotVideos=(p=1,l=12)=>getHome(1,l,true)
 export const getWeekHotVideos=(p=1,l=12)=>getHome(1,l,true)
 export const getTopVideos=(p=1,l=12)=>getHome(1,l,true)
 export const getCategory=(id,page=1,sort='latest')=>request({ac:'detail',t:id,pg:Math.max(1,Number(page)||1),pagesize:12,...(sort&&sort!=='latest'?{sort}:{})})
-export const searchVideo=(wd,page=1)=>String(wd||'').trim()?request({ac:'detail',wd:String(wd).trim(),pg:Math.max(1,Number(page)||1),limit:12}):Promise.resolve(EMPTY)
+export const searchVideo=(wd,page=1)=>String(wd||'').trim()?request({ac:'detail',wd:String(wd).trim(),pg:Math.max(1,Number(page)||1),pagesize:12}):Promise.resolve(EMPTY)
 export const getDetail=id=>request({ac:'detail',ids:id})
 export const getCategoryLatest=(id,limit=12)=>getCategory(id,1).then(r=>{r.data.list=(r.data.list||[]).slice(0,limit);return r})
 async function pool(limit,items,fn){const out=[],active=new Set();for(const item of items){const p=Promise.resolve().then(()=>fn(item));out.push(p);active.add(p);p.finally(()=>active.delete(p));if(active.size>=limit)await Promise.race(active)}return Promise.all(out)}
