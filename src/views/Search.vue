@@ -1,0 +1,22 @@
+<template><main class="site-main search-page"><div class="page-shell"><section class="search-hero"><div class="section-kicker">SEARCH</div><h1>搜索影片</h1><form class="search-form" @submit.prevent="submit"><i class="bi bi-search"></i><input v-model="input" placeholder="输入影片名称或关键词"><button>搜索</button></form><div v-if="history.length" class="history-row"><span>搜索历史</span><button v-for="w in history" :key="w" @click="searchWord(w)">{{w}}</button><button @click="clear">清除</button></div></section><section v-if="!wd" class="popular-box"><h2 class="section-heading">热门搜索</h2><div class="popular-list"><button v-for="(w,i) in popular" :key="w" @click="searchWord(w)"><b>{{String(i+1).padStart(2,'0')}}</b>{{w}}</button></div></section><section v-else><div class="section-bar"><div><div class="section-kicker">RESULTS</div><h2 class="section-heading">“{{wd}}” 的搜索结果</h2><div class="section-subtitle">第 {{page}} 页 · {{total}} 页</div></div></div><div class="video-grid"><template v-if="loading"><VideoCardSkeleton v-for="i in 10" :key="i"/></template><VideoCard v-else v-for="v in list" :key="v.vod_id" :item="v"/></div><div v-if="!loading&&!list.length" class="empty-state">没有找到相关影片</div><Pagination v-if="list.length||loading" :page="page" :total="total" @change="changePage"/></section></div></main></template>
+<script setup>
+import {ref,watch} from 'vue'
+import {useRoute,useRouter} from 'vue-router'
+import {searchVideo} from '../api/cms'
+import VideoCard from '../components/VideoCard.vue'
+import VideoCardSkeleton from '../components/VideoCardSkeleton.vue'
+import Pagination from '../components/Pagination.vue'
+const route=useRoute(),router=useRouter(),list=ref([]),loading=ref(false),wd=ref(''),input=ref(''),page=ref(1),total=ref(1),history=ref([])
+const KEY='cavxx_search_history',popular=['最新影片','热门影片','高清','推荐','中文字幕','经典']
+function loadHistory(){try{const a=JSON.parse(localStorage.getItem(KEY)||'[]');history.value=Array.isArray(a)?a.slice(0,8):[]}catch{history.value=[]}}
+function save(w){history.value=[w,...history.value.filter(x=>x!==w)].slice(0,8);localStorage.setItem(KEY,JSON.stringify(history.value))}
+function clear(){localStorage.removeItem(KEY);history.value=[]}
+function searchWord(w){input.value=w;submit()}
+function submit(){const w=input.value.trim();if(w){save(w);router.push({name:'search',query:{wd:w,page:'1'}})}}
+async function load(){wd.value=String(route.query.wd||'').trim();input.value=wd.value;page.value=Math.max(1,Number(route.query.page||1));loadHistory();if(!wd.value){list.value=[];return}loading.value=true;try{const r=await searchVideo(wd.value,page.value);list.value=r.data.list||[];total.value=Number(r.data.pagecount||1);document.title=wd.value+' - CAVXX'}catch{list.value=[];total.value=1}finally{loading.value=false}}
+function changePage(p){router.push({name:'search',query:{wd:wd.value,page:String(p)}})}
+watch(()=>route.fullPath,load,{immediate:true})
+</script>
+<style scoped>
+.search-page{padding:20px 0 50px}.search-hero{padding:30px;margin-bottom:28px;border:1px solid #ffffff12;border-radius:18px;background:radial-gradient(circle at 80% 20%,#ff4d7326,transparent 30%),#121218}.search-hero h1{margin:5px 0 18px;color:#f5f5f7;font-size:28px}.search-form{display:flex;align-items:center;height:48px;max-width:760px;border:1px solid #ffffff19;border-radius:12px;background:#0d0d12}.search-form i{margin-left:15px;color:#ff7894}.search-form input{min-width:0;flex:1;height:100%;padding:0 12px;border:0;outline:0;background:transparent;color:#fff}.search-form button{height:38px;margin-right:5px;padding:0 18px;border:0;border-radius:9px;background:#ff4d73;color:#fff}.history-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px;color:#777;font-size:11px}.history-row button{padding:5px 9px;border:1px solid #ffffff10;border-radius:7px;background:#191920;color:#999}.popular-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:15px}.popular-list button{display:flex;gap:12px;padding:14px;border:1px solid #ffffff12;border-radius:11px;background:#131319;color:#bbb;text-align:left}.popular-list b{color:#ff6b8d}.section-bar{margin:18px 0 15px}.section-heading{margin:0;color:#f0f0f3;font-size:20px}.section-subtitle{color:#777;font-size:11px}.empty-state{min-height:260px;display:grid;place-content:center;color:#888}@media(max-width:640px){.search-page{padding-top:10px}.search-hero{padding:22px 16px}.search-hero h1{font-size:23px}.popular-list{grid-template-columns:1fr 1fr}}
+</style>
